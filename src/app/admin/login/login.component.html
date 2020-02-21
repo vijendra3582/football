@@ -1,0 +1,40 @@
+<div class="app-login">
+    <div class="col-10 ml-sm-auto col-sm-6 col-md-4 ml-md-auto login-center mx-auto login-admin">
+        <div class="navbar-header text-center">
+            <span class="head-main">Dribble India</span>
+        </div>
+        <form class="form-horizontal" [formGroup]="form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" formControlName="email" placeholder="johndoe@site.com" class="form-control"
+                    id="email">
+                <app-field-error [submitted]="submitted" [server_message]="server_message.email"
+                    [control]="form.get('email')"></app-field-error>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" formControlName="password" placeholder="*****" class="form-control"
+                    id="password">
+                <app-field-error [submitted]="submitted" [control]="form.get('password')"></app-field-error>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block btn-lg btn-color-scheme ripple" type="button" (click)="login()"
+                    [disabled]="!this.form.valid">Login</button>
+            </div>
+            <div class="form-group no-gutters mb-0">
+                <div class="col-md-12 d-flex">
+                    <div class="checkbox checkbox-info mr-auto">
+                        <label class="d-flex">
+                            <input type="checkbox" formControlName="remember"> <span class="label-text">Remember
+                                me</span>
+                        </label>
+                    </div>
+                    <a href="javascript:void(0)" routerLink="/forget" id="to-recover" class="my-auto pb-2 text-right">
+                        <i class="fa fa-lock mr-1"></i>
+                        Forgot Password ?
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

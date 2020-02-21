@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("assets/vendors/material-icons/material-icons.css");
+@import url("assets/vendors/mono-social-icons/monosocialiconsfont.css");
+@import url("assets/css/style.css");
+
+.form-group {
+    margin-bottom: 1.0rem;
+    float: left;
+    width: 100%;
+}
+
+.app-login {
+    float: left;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-header.text-center {
+    position: relative;
+}
+
+.login-admin {
+    width: 100%;
+    margin-top: 8rem;
+    background: #fff;
+    border-radius: 4px;
+    padding: 11px;
+    float: left;
+}
+
+span.head-main {
+    font-size: 1.6rem;
+    font-weight: 600;
+    user-select: none;
+}
