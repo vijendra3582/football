@@ -19,4 +19,8 @@ export class ForgetComponent implements OnInit {
     });
   }
 
+  recover(){
+    
+  }
+
 }

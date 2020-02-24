@@ -1,7 +1,8 @@
-import { DashboardComponent, LoginComponent, ForgetComponent } from './pages';
+import { DashboardComponent, LoginComponent, ForgetComponent, AcademyCreateComponent, AcademyListComponent } from './pages';
 import { Routes } from '@angular/router';
 import { AuthGuard } from './../guards/auth.guard';
 import { LoginGuard } from './../guards/login.guard';
+import { Component } from '@angular/core';
 
 export const adminRoutes: Routes = [
     {
@@ -14,14 +15,23 @@ export const adminRoutes: Routes = [
         canActivate: [LoginGuard],
         component: LoginComponent
     },
-    { 
-        path: "forget", 
+    {
+        path: "forget",
         canActivate: [LoginGuard],
-        component: ForgetComponent 
+        component: ForgetComponent
     },
     {
         path: "dashboard",
         canActivate: [AuthGuard],
         component: DashboardComponent
+    },
+    {
+        path: "academy",
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [
+            { path: "create", component: AcademyCreateComponent },
+            { path: "list", component: AcademyListComponent },
+        ]
     }
 ];

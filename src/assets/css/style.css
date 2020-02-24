@@ -12107,6 +12107,7 @@ dd {
 
 .wrapper {
   position: relative;
+  min-height: 100vh;
 }
 
 .content-wrapper {
@@ -12200,6 +12201,7 @@ dd {
 
 .footer {
   bottom: 0;
+  display: none;
   color: #58666e;
   left: 0;
   height: 60px;

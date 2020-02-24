@@ -17,29 +17,29 @@ export class SidebarComponent implements OnInit {
     },
     {
       "name": "Academy",
-      "link": "admin/academy",
+      "link": "academy",
       "icon": "home",
       "children": [
-        {"name": "Create Academy", "link": "admin/academy/create"},
-        {"name": "Manage Academy", "link": "admin/academy"}
+        {"name": "Create Academy", "link": "academy/create"},
+        {"name": "Manage Academy", "link": "academy"}
       ]
     },
     {
       "name": "Coach",
-      "link": "admin/coach",
+      "link": "coach",
       "icon": "golf_course",
       "children": [
-        {"name": "Create Coach", "link": "admin/coach/create"},
-        {"name": "Manage Coach", "link": "admin/coach"}
+        {"name": "Create Coach", "link": "coach/create"},
+        {"name": "Manage Coach", "link": "coach"}
       ]
     },
     {
       "name": "Student",
-      "link": "admin/student",
+      "link": "student",
       "icon": "verified_user",
       "children": [
-        {"name": "Create Student", "link": "admin/student/create"},
-        {"name": "Manage Student", "link": "admin/student"}
+        {"name": "Create Student", "link": "student/create"},
+        {"name": "Manage Student", "link": "student"}
       ]
     }
   ];

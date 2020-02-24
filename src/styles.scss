@@ -3,33 +3,100 @@
 @import url("assets/css/style.css");
 
 .form-group {
-    margin-bottom: 1.0rem;
-    float: left;
-    width: 100%;
+  margin-bottom: 1rem;
+  float: left;
+  width: 100%;
 }
 
 .app-login {
-    float: left;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  float: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .navbar-header.text-center {
-    position: relative;
+  position: relative;
 }
 
 .login-admin {
-    width: 100%;
-    margin-top: 8rem;
-    background: #fff;
-    border-radius: 4px;
-    padding: 11px;
-    float: left;
+  width: 100%;
+  margin-top: 8rem;
+  background: #fff;
+  border-radius: 4px;
+  padding: 11px;
+  float: left;
 }
 
 span.head-main {
-    font-size: 1.6rem;
-    font-weight: 600;
-    user-select: none;
+  font-size: 1.6rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.d-flex-center {
+  float: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-flex-center-mt4 {
+  margin-top: 4rem;
+}
+
+div#wrapper {
+  background: #fff;
+  float: left;
+  width: 100%;
+}
+
+[nz-form] {
+  max-width: 600px;
+  width: 25%;
+}
+
+.phone-select {
+  width: 70px;
+}
+
+.register-are {
+  margin-bottom: 8px;
+}
+
+.ant-form-item-label {
+  text-align: left;
+  line-height: unset;
+}
+
+.ant-form-item-required::before {
+  float: right;
+}
+.ant-col {
+  margin-bottom: 4px;
+}
+.ant-form-item-required::after {
+  content: "";
+}
+
+.ant-input {
+  height: 40px;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.ant-input:focus {
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.ant-form-explain,
+.ant-form-extra {
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+label > .anticon {
+  margin-left: 3px;
+  margin-right: 3px;
 }

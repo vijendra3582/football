@@ -51,7 +51,7 @@ exports.login = (req, res, next) => {
         email: 'required|email',
         password: 'required'
     });
-    
+
     v.check().then((matched) => {
         if (!matched) {
             return res.status(422).json({
@@ -74,8 +74,8 @@ exports.login = (req, res, next) => {
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
-                const jsontoken = sign({ result: results }, "qwe1234", {
-                    expiresIn: "1h"
+                const jsontoken = sign({ result: results }, process.env.JWT_KEY, {
+                    expiresIn: process.env.JWT_EXPIRE
                 });
                 return res.status(200).json({
                     status: true,
@@ -94,5 +94,8 @@ exports.login = (req, res, next) => {
 };
 
 exports.me = (req, res, next) => {
-
+    return res.status(200).json({
+        status: true,
+        user: req.user
+    });
 };
