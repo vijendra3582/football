@@ -1,4 +1,4 @@
-const squelize = require('./../config/database');
+const sequelize = require('./../config/database');
 
 module.exports = {
     create: (data, callBack) => {
@@ -21,7 +21,7 @@ module.exports = {
         });
     },
 
-    delete: (data, callBack) => {
+    deleteA: (data, callBack) => {
         var queryData = '"'.replace(/"/g, "'") + JSON.stringify(data) + '"'.replace(/"/g, "'");
         sequelize.query('CALL Delete_Academy(' + queryData + ')').then(response => {
             var response = JSON.parse(response[0].message);

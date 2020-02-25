@@ -24,7 +24,8 @@ export class TokenInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
                 let httpError = (err as HttpErrorResponse);
                 if (httpError.status === 403 || httpError.status === 401) {
-                    // this.router.navigate(['/']);
+                    this.tokenService.logout();
+                    this.router.navigate(['/login']);
                 }
             }
             return throwError(err);

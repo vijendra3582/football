@@ -21,7 +21,7 @@ export class SidebarComponent implements OnInit {
       "icon": "home",
       "children": [
         {"name": "Create Academy", "link": "academy/create"},
-        {"name": "Manage Academy", "link": "academy"}
+        {"name": "Manage Academy", "link": "academy/manage"}
       ]
     },
     {
@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit {
       "icon": "golf_course",
       "children": [
         {"name": "Create Coach", "link": "coach/create"},
-        {"name": "Manage Coach", "link": "coach"}
+        {"name": "Manage Coach", "link": "coach/manage"}
       ]
     },
     {
@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
       "icon": "verified_user",
       "children": [
         {"name": "Create Student", "link": "student/create"},
-        {"name": "Manage Student", "link": "student"}
+        {"name": "Manage Student", "link": "student/manage"}
       ]
     }
   ];

@@ -1,73 +1,100 @@
 <div class="d-flex-center d-flex-center-mt4">
-    <form nz-form [formGroup]="academyForm" (ngSubmit)="submitForm()">
+    <form nz-form [formGroup]="academyForm">
         <nz-form-item>
-            <nz-form-label nzFor="name" nzRequired>
-                <span>
-                    Name
-                </span>
-            </nz-form-label>
-            <nz-form-control nzErrorTip="Please input your name">
-                <input nz-input id="name" formControlName="name" />
+            <nz-form-label nzRequired nzFor="name">Name</nz-form-label>
+            <nz-form-control>
+                <input nz-input id="name" formControlName="name" [(ngModel)]="academy.name" />
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.name" [server_message]="server_message.name" [control]="academyForm.get('name')"></app-field-error>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label nzRequired nzFor="email">
-                E-mail
-            </nz-form-label>
-            <nz-form-control nzErrorTip="The input is not valid E-mail">
-                <input nz-input formControlName="email" id="email" />
+            <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="email" id="email" [(ngModel)]="academy.email" />
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.email" [control]="academyForm.get('email')"></app-field-error>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label nzFor="mobile" nzRequired>Mobile</nz-form-label>
-            <nz-form-control
-                nzErrorTip="Please input your phone number">
-                <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-                    <ng-template #addOnBeforeTemplate>
-                        <nz-select formControlName="phoneNumberPrefix" class="phone-select">
-                            <nz-option nzLabel="+91" nzValue="+91"></nz-option>
-                        </nz-select>
-                    </ng-template>
-                    <input formControlName="mobile" id="'mobile'" nz-input />
-                </nz-input-group>
+            <nz-form-label nzRequired nzFor="mobile">Mobile</nz-form-label>
+            <nz-form-control>
+                <input formControlName="mobile" id="'mobile'" nz-input [(ngModel)]="academy.mobile" />
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.mobile" [control]="academyForm.get('mobile')"></app-field-error>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzFor="password" nzRequired>Password</nz-form-label>
-            <nz-form-control nzErrorTip="Please input your password">
+        <nz-form-item *ngIf="!academy.id">
+            <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+            <nz-form-control>
                 <input nz-input type="password" id="password" formControlName="password"
-                    (ngModelChange)="updateConfirmValidator()" />
+                    (ngModelChange)="updateConfirmValidator()" [(ngModel)]="academy.password" />
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.password" [control]="academyForm.get('password')"></app-field-error>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label nzFor="confirm_password" nzRequired>Confirm Password</nz-form-label>
+        <nz-form-item *ngIf="!academy.id">
+            <nz-form-label nzRequired nzFor="confirm_password">Confirm Password</nz-form-label>
             <nz-form-control [nzErrorTip]="errorTpl">
-                <input nz-input type="password" formControlName="confirm_password" id="confirm_password" />
-                <ng-template #errorTpl let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                        Please confirm your password
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('confirm')">
-                        Confirm password should be same as password
-                    </ng-container>
-                </ng-template>
+                <input nz-input type="password" formControlName="confirm_password" id="confirm_password"
+                    [(ngModel)]="academy.confirm_password" />
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.confirm_password" [control]="academyForm.get('confirm_password')"></app-field-error>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label nzFor="address_1" nzRequired>Address 1</nz-form-label>
-            <nz-form-control nzErrorTip="Please input your address">
-                <textarea nz-input  type="address_1" id="address_1" formControlName="address_1"></textarea>
+            <nz-form-label nzRequired nzFor="address_1">Address 1</nz-form-label>
+            <nz-form-control>
+                <textarea nz-input type="address_1" id="address_1" formControlName="address_1"
+                    [(ngModel)]="academy.address_1"></textarea>
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.address_1" [control]="academyForm.get('address_1')"></app-field-error>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label nzFor="address_2" nzRequired>Address 2</nz-form-label>
-            <nz-form-control nzErrorTip="Please input your address">
-                <textarea nz-input  type="address_2" id="address_2" formControlName="address_2"></textarea>
+            <nz-form-label nzRequired nzFor="address_2">Address 2</nz-form-label>
+            <nz-form-control>
+                <textarea nz-input type="address_2" id="address_2" formControlName="address_2"
+                    [(ngModel)]="academy.address_2"></textarea>
             </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.address_2" [control]="academyForm.get('address_2')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="country">Country</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" formControlName="country"
+                    [(ngModel)]="academy.country" (ngModelChange)="getState()">
+                    <nz-option *ngFor="let option of countries.countries" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.country" [control]="academyForm.get('country')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="state">State</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a state" formControlName="state"
+                    [(ngModel)]="academy.state" (ngModelChange)="getCity()">
+                    <nz-option *ngFor="let option of states.states" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.state" [control]="academyForm.get('state')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="city">City</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a city" formControlName="city"
+                    [(ngModel)]="academy.city">
+                    <nz-option *ngFor="let option of cities.cities" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.city" [control]="academyForm.get('city')"></app-field-error>
         </nz-form-item>
         <nz-form-item nz-row class="register-area">
-            <nz-form-control>
-                <button nz-button nzType="primary" [disabled]="!academyForm.valid">Create Academy</button>
+            <nz-form-control *ngIf="!academy.id">
+                <button nz-button nzType="primary" [disabled]="!academyForm.valid" (click)="submitForm()">Create
+                    Academy</button>
+            </nz-form-control>
+
+            <nz-form-control *ngIf="academy.id">
+                <button nz-button nzType="primary" [disabled]="!academyForm.valid" (click)="submitFormUpdate()">Update
+                    Academy</button>
             </nz-form-control>
         </nz-form-item>
     </form>

@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth.route');
+const locationRoutes = require('./routes/location.route');
+const academyRoutes = require('./routes/academy.route');
 //Get port
 const portNode = process.env.APP_PORT;
 
@@ -18,6 +20,9 @@ app.use(bodyParser.json());
 
 //Route Middleware
 app.use('/auth', authRoutes);
+app.use('/location', locationRoutes);
+app.use('/academy', academyRoutes);
+
 app.get('*', (req, res, next) => {
     return res.status(404).json({
         status: 0,
@@ -26,5 +31,5 @@ app.get('*', (req, res, next) => {
 });
 
 app.listen(portNode, () => {
-    console.log("Server is up and running on PORT :", portNode);
+    console.log("Server is up and running on PORTs :", portNode);
 });

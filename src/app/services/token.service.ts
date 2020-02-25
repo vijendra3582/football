@@ -30,7 +30,7 @@ export class TokenService {
     }
 
     restoreInfo(){
-        let data = localStorage.getItem('user');
+        let data = localStorage.getItem('userInfo');
         if(data){
             this.userInfo = JSON.parse(data);
             this.loggedIn = true;

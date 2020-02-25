@@ -2,7 +2,6 @@ import { DashboardComponent, LoginComponent, ForgetComponent, AcademyCreateCompo
 import { Routes } from '@angular/router';
 import { AuthGuard } from './../guards/auth.guard';
 import { LoginGuard } from './../guards/login.guard';
-import { Component } from '@angular/core';
 
 export const adminRoutes: Routes = [
     {
@@ -31,7 +30,8 @@ export const adminRoutes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
             { path: "create", component: AcademyCreateComponent },
-            { path: "list", component: AcademyListComponent },
+            { path: "edit/:id", component: AcademyCreateComponent },
+            { path: "manage", component: AcademyListComponent },
         ]
     }
 ];

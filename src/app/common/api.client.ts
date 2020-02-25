@@ -25,6 +25,10 @@ export class ApiClient {
         return this.http.put<ApiResponse>(this.getUrl(segment), payload);
     }
 
+    public delete(segment){
+        return this.http.delete<ApiResponse>(this.getUrl(segment));
+    }
+
     public getUrl(segment) {
         return environment.apiPath+segment;
     }
