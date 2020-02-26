@@ -79,9 +79,17 @@ div#wrapper {
 }
 
 .ant-input:focus {
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  box-shadow: none;
 }
-
+.has-error .ant-calendar-picker-open .ant-calendar-picker-input,
+.has-error .ant-input-affix-wrapper .ant-input:focus,
+.has-error .ant-input:focus,
+.has-error .ant-select-focused .ant-select-selection,
+.has-error .ant-select-open .ant-select-selection {
+  box-shadow: none;
+  border-right-width: 1.5px !important;
+  outline: 0;
+}
 .ant-form-explain,
 .ant-form-extra {
   font-weight: 500;
@@ -244,7 +252,7 @@ form.login-form {
 }
 
 .ant-table-thead > tr > th {
-  border-bottom: 1px solid lightgray;
+  border-bottom: 0;
 }
 
 .ant-breadcrumb {
@@ -258,4 +266,38 @@ nz-breadcrumb-item {
 }
 span.ant-breadcrumb-link {
   font-weight: 500;
+}
+.ant-table table {
+  border: 1px solid lightgray;
+}
+
+.ant-table-body table {
+  border-top: 0;
+}
+
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: none;
+  box-shadow:none;
+	border-radius: 1px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  -webkit-box-shadow: none;
+  box-shadow:none;
+  background-color: #F44336;
+  width: 4px;
+}
+
+::selection {
+  color: #fff;
+  background: #1890ff;
 }

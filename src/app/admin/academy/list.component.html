@@ -15,6 +15,7 @@
         [(nzPageSize)]="pageSize"
         (nzPageIndexChange)="searchData()"
         (nzPageSizeChange)="searchData(true)"
+        [nzScroll]="{ x: '1150px', y: '550px' }"
      >
         <thead (nzSortChange)="sort($event)" nzSingleSort>
             <tr>                               

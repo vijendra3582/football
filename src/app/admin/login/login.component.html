@@ -4,7 +4,7 @@
         <nz-form-item>
             <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
             <nz-form-control>
-                <input nz-input formControlName="email" id="email"/>
+                <input nz-input formControlName="email" id="email" />
             </nz-form-control>
             <app-field-error [submitted]="submitted" [server_message]="server_message.email"
                 [control]="loginForm.get('email')"></app-field-error>
@@ -12,7 +12,7 @@
         <nz-form-item>
             <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
             <nz-form-control>
-                <input nz-input type="password" id="password" formControlName="password"/>
+                <input nz-input type="password" id="password" formControlName="password" />
             </nz-form-control>
             <app-field-error [submitted]="submitted" [server_message]="server_message.password"
                 [control]="loginForm.get('password')"></app-field-error>
@@ -23,7 +23,8 @@
                     <span>Remember me</span>
                 </label>
                 <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-                <button nz-button nzType="primary" class="login-form-button" [disabled]="!loginForm.valid" (click)="login()">Login</button>
+                <button nz-button nzType="primary" class="login-form-button" [disabled]="!loginForm.valid"
+                    (click)="login()">Login</button>
                 Or
                 <a>register now!</a>
             </nz-form-control>
