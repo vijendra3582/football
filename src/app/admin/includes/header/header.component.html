@@ -1,12 +1,26 @@
 <nz-header>
     <div class="logo"></div>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+    <ul nz-menu nzMode="horizontal" class="menu-item">
         <li nz-menu-item routerLink="/dashboard">Dashboard</li>
-        <li nz-submenu nzTitle="Academy">
-            <ul>
+        <li nz-submenu nzTitle="Academy" nzIcon="caret-down">
+            <ul class="sub-menu-item">
                 <li nz-menu-item routerLink="/academy/create">Create</li>
                 <li nz-menu-item routerLink="/academy/manage">Manage</li>
             </ul>
         </li>
+        <li nz-submenu nzTitle="Coach" nzIcon="caret-down">
+            <ul class="sub-menu-item">
+                <li nz-menu-item routerLink="/coach/create">Create</li>
+                <li nz-menu-item routerLink="/coach/manage">Manage</li>
+            </ul>
+        </li>
+        <li nz-submenu nzTitle="Student" nzIcon="caret-down">
+            <ul class="sub-menu-item">
+                <li nz-menu-item routerLink="/student/create">Create</li>
+                <li nz-menu-item routerLink="/student/manage">Manage</li>
+            </ul>
+        </li>
+        <li (click)="logout()" nz-menu-item class="logout-menu">Logout<i nz-icon nzType="logout"
+                nzTheme="outline"></i></li>
     </ul>
 </nz-header>

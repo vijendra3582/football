@@ -45,7 +45,10 @@ module.exports = {
         var queryData = '"'.replace(/"/g, "'") + JSON.stringify(data) + '"'.replace(/"/g, "'");
         sequelize.query('CALL All_Academy(' + queryData + ')').then(response => {
             var response = response;
-            return callBack(null, response);
+            var countQueryData = '"'.replace(/"/g, "'") + JSON.stringify({ "table": "prefix_academy_details", "count": "detail_id" }) + '"'.replace(/"/g, "'");
+            sequelize.query('Call Total_rows(' + countQueryData + ')').then(count => {
+                return callBack(null, { "response": response, "count": count });
+            });
         }).catch(error => {
             callBack(error);
         });

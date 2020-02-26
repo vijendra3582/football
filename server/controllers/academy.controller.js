@@ -98,7 +98,19 @@ exports.delete = (req, res, next) => {
 }
 
 exports.all = (req, res, next) => {
-    all('1', (err, result) => {
+    const page = req.query.page;
+    const results = req.query.results;
+    const sortField = req.query.sortField;
+    let sortOrder = req.query.sortOrder;
+    if (sortOrder) {
+        if (sortOrder == "ascend")
+            sortOrder = "asc";
+        else
+            sortOrder = "desc";
+    }
+    const queryParam = { "page": page, "results": results, "sortField": sortField, "sortOrder": sortOrder };
+
+    all(queryParam, (err, result) => {
         if (err) {
             return res.status(500).json({
                 status: false,

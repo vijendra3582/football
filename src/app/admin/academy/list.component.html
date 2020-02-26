@@ -1,11 +1,25 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item routerLink="/dashboard">Dashboard</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="/academy/manage">Academy</nz-breadcrumb-item>
+    <nz-breadcrumb-item>List</nz-breadcrumb-item>
+</nz-breadcrumb>
 <div class="nz-table">
-    <nz-table #nzTable [nzData]="listOfDisplayData">
-        <thead>
-            <tr>
-                <th>Unique No.</th>
-                <th>
-                    Name
-                </th>
+    <nz-table 
+        #ajaxTable 
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="listOfData"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="searchData()"
+        (nzPageSizeChange)="searchData(true)"
+     >
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <tr>                               
+                <th nzLeft="0px" nzShowSort nzSortKey="unique_no">Unique No.</th>
+                <th nzShowSort nzSortKey="name">Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Address 1</th>
@@ -13,12 +27,12 @@
                 <th>Country</th>
                 <th>State</th>
                 <th>City</th>
-                <th>Action</th>
+                <th nzRight="0px">Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of nzTable.data">
-                <td>{{ data.unique_no }}</td>
+            <tr *ngFor="let data of ajaxTable.data; index as i">
+                <td nzLeft="0px">{{ data.unique_no }}</td>
                 <td>{{ data.name }}</td>
                 <td>{{ data.email }}</td>
                 <td>{{ data.mobile }}</td>
@@ -27,9 +41,11 @@
                 <td>{{ data.countryName }}</td>
                 <td>{{ data.stateName }}</td>
                 <td>{{ data.cityName }}</td>
-                <td>
+                <td nzRight="0px">
                     <a routerLink="/academy/edit/{{ data.id }}" class="edit">Edit</a>
-                    <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this academy ?" (nzOnConfirm)="deleteAcademy(data.id)" nzPopconfirmPlacement="topRight" class="delete" href="#">Delete</a>
+                    <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this academy ?"
+                        (nzOnConfirm)="deleteAcademy(data.id, i)" nzPopconfirmPlacement="topRight" class="delete"
+                        href="#">Delete</a>
                 </td>
             </tr>
         </tbody>

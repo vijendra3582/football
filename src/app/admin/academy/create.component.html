@@ -1,3 +1,9 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item routerLink="/dashboard">Dashboard</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="/academy/manage">Academy</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="!academy.id">Create</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="academy.id">Edit</nz-breadcrumb-item>
+</nz-breadcrumb>
 <div class="d-flex-center d-flex-center-mt4">
     <form nz-form [formGroup]="academyForm">
         <nz-form-item>

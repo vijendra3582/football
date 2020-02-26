@@ -107,6 +107,8 @@ export class AcademyCreateComponent implements OnInit {
   setFormEdit() {
     this.academyForm = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
+      password: [null],
+      confirm_password: [null],
       name: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
       address_1: [null, [Validators.required]],
@@ -140,7 +142,6 @@ export class AcademyCreateComponent implements OnInit {
     } else {
       this.responseMessage.error(data.message, { nzDuration: 2000 });
     }
-
   }
 
   handleError(error) {

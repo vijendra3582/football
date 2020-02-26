@@ -11,16 +11,16 @@ import { TokenService } from '../../services/token.service';
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup;
+  loginForm: FormGroup;
   submitted = false;
-  server_message = { email: '' };
+  server_message: any = {};
   constructor(
-    private authService: AuthService, 
-    private tokenService: TokenService, 
+    private authService: AuthService,
+    private tokenService: TokenService,
     private router: Router) { }
 
   ngOnInit() {
-    this.form = new FormGroup({
+    this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),
       remember: new FormControl(null)
@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.submitted = true;
-    if (this.form.valid) {
-      this.authService.login(this.form.value).subscribe(
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe(
         data => this.handleResponse(data),
         error => this.handleError(error)
       );
@@ -39,11 +39,16 @@ export class LoginComponent implements OnInit {
 
   handleResponse(data) {
     this.tokenService.setUserInfo(data);
-    this.form.reset();
+    this.loginForm.reset();
     this.router.navigateByUrl('/dashboard');
   }
 
   handleError(err) {
-    this.server_message.email = err.error.message;
+    console.log(err.error.message);
+    if (err.status === 422)
+      this.server_message.email = { "message": err.error.message.errors.email.message };
+    else
+      this.server_message.email = { "message": err.error.message };
+    console.log(this.server_message);
   }
 }

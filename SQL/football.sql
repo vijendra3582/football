@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2020 at 01:54 PM
+-- Generation Time: Feb 26, 2020 at 11:03 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -26,6 +26,81 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
+    DECLARE v_page int;
+	DECLARE v_results int;
+	DECLARE v_resultsOrder int;
+	DECLARE v_sortField varchar(255);
+	DECLARE v_sortOrder varchar(255);
+	
+    SET v_page 						= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.page'));
+    SET v_results 					= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.results'));
+    SET v_sortField 				= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.sortField'));
+    SET v_sortOrder 				= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.sortOrder'));
+	
+    SET v_resultsOrder = (v_page - 1) * v_results;
+    
+    IF(v_sortField != null OR v_sortField != 'null') THEN
+		SET @orderBy = CONCAT(' ORDER BY ', v_sortField, ' ', v_sortOrder);
+	ELSE
+		SET @orderBy = '';
+	END IF;
+    
+    SET @limitRow = CONCAT(' LIMIT ', v_resultsOrder, ', ', v_results);  
+    
+	SET @query = CONCAT('
+		SELECT 
+			users.*, 
+			country.name AS countryName,
+			state.name AS stateName,
+			city.name AS cityName
+		FROM 
+			prefix_users users
+		INNER JOIN 
+			prefix_academy_details academy
+		ON 
+			academy.user_id = users.id
+		INNER JOIN 
+			prefix_countries country
+		ON 
+			country.id = users.country
+		INNER JOIN 
+			prefix_states state
+		ON 
+			state.id = users.state
+		INNER JOIN 
+			prefix_cities city
+		ON 
+			city.id = users.city
+		WHERE 
+			users.role = "academy"', @orderBy, @limitRow);
+    
+	PREPARE stmt FROM @query;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Delete_Academy` (IN `v_academy_id` INT)  BEGIN
+START TRANSACTION;
+	DELETE FROM prefix_users WHERE id = v_academy_id;
+    DELETE FROM prefix_academy_details WHERE user_id = v_academy_id;
+    
+    SELECT JSON_OBJECT('status',true,'message','Academy deleted successfully.') as message;
+COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_City` (IN `v_state_id` INT)  BEGIN
+	SELECT * FROM prefix_cities WHERE state_id = v_state_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_Country` ()  BEGIN
+	SELECT * FROM prefix_countries WHERE id = 101;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_State` (IN `v_country_id` INT)  BEGIN
+	SELECT * FROM prefix_states WHERE country_id = v_country_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_Single` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
@@ -38,6 +113,156 @@ IF(v_field = 'email') THEN
 ELSEIF(v_field = 'id') THEN
 	SELECT * FROM `prefix_users` WHERE id = v_value;
 END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Insert_Academy` (IN `p_body` JSON)  BEGIN
+DECLARE v_name varchar(255);
+DECLARE v_email varchar(255);
+DECLARE v_mobile varchar(255);
+DECLARE v_password varchar(255);
+DECLARE v_address_1 text;
+DECLARE v_address_2 text;
+DECLARE v_country int;
+DECLARE v_state int;
+DECLARE v_city int;
+DECLARE v_academy_id int;
+
+START TRANSACTION;
+SET v_name 				= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.name'));
+SET v_email 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.email'));
+SET v_mobile 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.mobile'));
+SET v_password 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.password'));
+SET v_address_1 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.address_1'));
+SET v_address_2 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.address_2'));
+SET v_country 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.country'));
+SET v_state 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.state'));
+SET v_city 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.city'));
+
+IF EXISTS (SELECT 1 FROM `prefix_users` WHERE `email` = v_email OR `mobile` = v_mobile) THEN
+	SELECT JSON_OBJECT('status',false,'message','This email or mobile already exists in database.') as message;  
+ELSE
+	#Insert Data In Users Table
+	INSERT INTO `prefix_users`
+    	(
+         `role`, 
+         `name`, 
+         `email`, 
+         `mobile`, 
+         `password`, 
+         `address_1`, 
+         `address_2`, 
+         `city`, 
+         `state`, 
+         `country`, 
+         `status`
+        )
+      VALUES
+      	(
+        'academy',
+         v_name, 
+         v_email, 
+         v_mobile, 
+         v_password, 
+         v_address_1, 
+         v_address_2, 
+         v_city, 
+         v_state, 
+         v_country, 
+         0
+        );
+        
+    SET @lastID = (SELECT LAST_INSERT_ID());
+    SET @unique_no = CONCAT('ACDMY', @lastID);
+    
+    #Insert Academy Details
+	INSERT INTO prefix_academy_details
+    (
+		user_id,
+        unique_no
+    )
+    VALUES
+    (
+		@lastID,
+		@unique_no      
+    );
+    
+    #Update Unique No In Users Table
+    UPDATE prefix_users SET unique_no = @unique_no WHERE id = @lastID;
+    SELECT JSON_OBJECT('status',true,'message','Academy registered successfully.') as message;
+END IF;
+COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Single_Academy` (IN `p_body` JSON)  BEGIN
+DECLARE v_field varchar(255);
+DECLARE v_value varchar(255);
+
+SET v_field 				= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.field'));
+SET v_value 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.value'));
+
+IF(v_field = 'email') THEN
+	SELECT * FROM `prefix_users` WHERE email = v_value;
+ELSEIF(v_field = 'id') THEN
+	SELECT * FROM `prefix_users` WHERE id = v_value;
+END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
+	SET @tableName 		= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.table'));
+	SET @count 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.count'));
+    
+	SET @query = CONCAT('SELECT count(', @count,') as count FROM ', @tableName);
+    
+    PREPARE stmt FROM @query;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Academy` (IN `p_body` JSON)  BEGIN
+DECLARE v_name varchar(255);
+DECLARE v_email varchar(255);
+DECLARE v_mobile varchar(255);
+DECLARE v_password varchar(255);
+DECLARE v_address_1 text;
+DECLARE v_address_2 text;
+DECLARE v_country int;
+DECLARE v_state int;
+DECLARE v_city int;
+DECLARE v_academy_id int;
+DECLARE v_status int;
+
+START TRANSACTION;
+SET v_name 				= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.name'));
+SET v_email 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.email'));
+SET v_mobile 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.mobile'));
+SET v_password 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.password'));
+SET v_address_1 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.address_1'));
+SET v_address_2 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.address_2'));
+SET v_country 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.country'));
+SET v_state 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.state'));
+SET v_city 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.city'));
+SET v_academy_id 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.id'));
+SET v_status 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.status'));
+
+IF EXISTS (SELECT 1 FROM `prefix_users` WHERE (`email` = v_email OR `mobile` = v_mobile) AND id != v_academy_id) THEN
+	SELECT JSON_OBJECT('status',false,'message','This email or mobile already exists in database.') as message;  
+ELSE
+	#Insert Data In Users Table
+	UPDATE `prefix_users`
+    	SET
+         `name` 		= v_name,
+         `email` 		= v_email,
+         `mobile`  		= v_mobile,
+         `address_1` 	= v_address_1, 
+         `address_2`  	= v_address_2,
+         `city` 		= v_city, 
+         `state` 		= v_state,
+         `country`  	= v_country,
+         `status` 		= v_status
+	WHERE id = v_academy_id;
+    SELECT JSON_OBJECT('status',true,'message','Academy updated successfully.') as message;
+END IF;
+COMMIT;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Delete` (IN `p_body` JSON)  BEGIN
@@ -139,6 +364,48 @@ CREATE TABLE `prefix_academy_details` (
   `user_id` int(11) NOT NULL,
   `unique_no` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `prefix_academy_details`
+--
+
+INSERT INTO `prefix_academy_details` (`detail_id`, `user_id`, `unique_no`) VALUES
+(4, 9, 'ACDMY9'),
+(5, 10, 'ACDMY10'),
+(6, 11, 'ACDMY11'),
+(7, 12, 'ACDMY12'),
+(8, 13, 'ACDMY13'),
+(9, 14, 'ACDMY14'),
+(10, 15, 'ACDMY15'),
+(11, 16, 'ACDMY16'),
+(12, 17, 'ACDMY17'),
+(13, 18, 'ACDMY18'),
+(14, 19, 'ACDMY19'),
+(15, 20, 'ACDMY20'),
+(16, 21, 'ACDMY21'),
+(17, 22, 'ACDMY22'),
+(18, 23, 'ACDMY23'),
+(19, 24, 'ACDMY24'),
+(20, 25, 'ACDMY25'),
+(21, 26, 'ACDMY26'),
+(22, 27, 'ACDMY27'),
+(23, 28, 'ACDMY28'),
+(24, 29, 'ACDMY29'),
+(25, 30, 'ACDMY30'),
+(26, 31, 'ACDMY31'),
+(27, 32, 'ACDMY32'),
+(28, 33, 'ACDMY33'),
+(29, 34, 'ACDMY34'),
+(30, 35, 'ACDMY35'),
+(31, 36, 'ACDMY36'),
+(32, 37, 'ACDMY37'),
+(33, 38, 'ACDMY38'),
+(34, 39, 'ACDMY39'),
+(35, 40, 'ACDMY40'),
+(36, 41, 'ACDMY41'),
+(37, 42, 'ACDMY42'),
+(38, 43, 'ACDMY43'),
+(39, 44, 'ACDMY44');
 
 -- --------------------------------------------------------
 
@@ -52506,11 +52773,11 @@ INSERT INTO `prefix_states` (`id`, `name`, `country_id`) VALUES
 CREATE TABLE `prefix_users` (
   `id` int(11) NOT NULL,
   `role` enum('admin','academy','coach','student') DEFAULT NULL,
+  `unique_no` varchar(45) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `mobile` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `gender` enum('male','female','others') DEFAULT NULL,
   `address_1` text DEFAULT NULL,
   `address_2` text DEFAULT NULL,
   `city` int(11) DEFAULT NULL,
@@ -52525,9 +52792,45 @@ CREATE TABLE `prefix_users` (
 -- Dumping data for table `prefix_users`
 --
 
-INSERT INTO `prefix_users` (`id`, `role`, `name`, `email`, `mobile`, `password`, `gender`, `address_1`, `address_2`, `city`, `state`, `country`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Vijendra', 'vijendra3582@gmail.com', '7532943952', '$2b$10$fZp2/wAovtVwbT6ya01jvuiowIl/3amZgU/rKWrYFLpcBOsl8avn2', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 07:55:00', '2020-02-24 09:18:20'),
-(2, 'academy', 'Vijendra', 'vijendra@makemaya.com', '8249216030', '$2b$10$vzbSfgwxZqXsnp/QzLiTV.eZK56JEVPFXgLTnW3CM2/8ggmMlPyuS', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 09:14:36', '2020-02-24 09:18:23');
+INSERT INTO `prefix_users` (`id`, `role`, `unique_no`, `name`, `email`, `mobile`, `password`, `address_1`, `address_2`, `city`, `state`, `country`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', NULL, 'Vijendra', 'vijendra3582@gmail.com', '7532943952', '$2b$10$fZp2/wAovtVwbT6ya01jvuiowIl/3amZgU/rKWrYFLpcBOsl8avn2', NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 07:55:00', '2020-02-24 09:18:20'),
+(2, 'academy', NULL, 'Vijendra', 'vijendra@makemaya.com', '8249216030', '$2b$10$vzbSfgwxZqXsnp/QzLiTV.eZK56JEVPFXgLTnW3CM2/8ggmMlPyuS', NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 09:14:36', '2020-02-24 09:18:23'),
+(9, 'academy', 'ACDMY9', 'User One', 'userone@gmail.com', '9999999999', '$2b$10$G3d8xzoy.loDmfxnqc.Tzej78GHa/9ykzmFOHosi/SOQFIAYYz2Du', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:21:43', '2020-02-26 07:21:43'),
+(10, 'academy', 'ACDMY10', 'User One', 'usertwo@gmail.com', '9999999998', '$2b$10$mn.lJZ5duBxhvMmir675g.kOnBeSTQeVG872Lko7DMLbmCSUmmycK', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:08', '2020-02-26 07:24:08'),
+(11, 'academy', 'ACDMY11', 'User One', 'userthree@gmail.com', '9999999997', '$2b$10$QcsiIVwkeAVlmWGXcfRz5eDbtS8aRRtKVhGsDm5K5Es.GRRj4sLYG', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:18', '2020-02-26 07:24:18'),
+(12, 'academy', 'ACDMY12', 'User One', 'userfour@gmail.com', '9999999996', '$2b$10$i5ir7Ot.y2uRQHuM/jQZGu/F99.jCEdy5cb2aMTth5IklywNGOMSS', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:32', '2020-02-26 07:24:32'),
+(13, 'academy', 'ACDMY13', 'User Five', 'userfive@gmail.com', '9999999995', '$2b$10$EQyvd0gThf4NaSAZHcrQ0eRm0xngmqR5KrU85ONSrqZ.hfFhZ902y', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:42', '2020-02-26 07:24:42'),
+(14, 'academy', 'ACDMY14', 'User Six', 'usersix@gmail.com', '9999999994', '$2b$10$7bWn13h8Zd1Wak8m0Xk4meX/4aeM2nIee6UXmOmGE.iYTmFtqLxRu', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:53', '2020-02-26 07:24:53'),
+(15, 'academy', 'ACDMY15', 'User Seven', 'userseven@gmail.com', '9999999993', '$2b$10$eEK0GfwAV0bhmARGW78HiefhysKJ8cOwRp4icNimPP6UPqDm/tnKW', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:25:08', '2020-02-26 07:25:08'),
+(16, 'academy', 'ACDMY16', 'User Eight', 'usereight@gmail.com', '9999999992', '$2b$10$g7M4sE9mbWzXojiklvtNz.Fl2AwZ5ZhsMrNwNVanLMlzn3w67tLFy', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:25:20', '2020-02-26 07:25:20'),
+(17, 'academy', 'ACDMY17', 'User Nine', 'usernine@gmail.com', '9999999991', '$2b$10$OHAw.9nDCZfJI5RoBdFgMuokn8TogHVTePD219A1je9NBRJC6mAa2', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:25:32', '2020-02-26 07:25:32'),
+(18, 'academy', 'ACDMY18', 'User Ten', 'userten@gmail.com', '9999999901', '$2b$10$6sHJv0yFToqm5I7vwMPpNuUgTfC5bDVNc7mYyx/Mzm9vsHixQKlfq', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:25:42', '2020-02-26 07:25:42'),
+(19, 'academy', 'ACDMY19', 'User A', 'usera@gmail.com', '99999999', '$2b$10$DD3H1B.A527XLVcNhKW/Del5GAD8qr2vD0vIZXKgzI9QHiwprlI3u', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:26:28', '2020-02-26 07:26:28'),
+(20, 'academy', 'ACDMY20', 'User B', 'userb@gmail.com', '999999994', '$2b$10$pYW1r7qAdxI1ahDa254fY.REAhnhBUDq4SA/p3vTs/RPTrJoVuHtW', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:26:42', '2020-02-26 07:26:42'),
+(21, 'academy', 'ACDMY21', 'User C', 'userc@gmail.com', '999999995', '$2b$10$8pJW8g2Wf1E/w3zu6pglOuX/FdSSRycOjcs3.qan8Urt2lETE/Kfe', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:26:51', '2020-02-26 07:26:51'),
+(22, 'academy', 'ACDMY22', 'User D', 'userd@gmail.com', '999999996', '$2b$10$0PrWDdqo7L.mFz8xNkv39eNT7gQ1uJiz899nzMLZXo.BEU5A0C.pe', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:26:58', '2020-02-26 07:26:58'),
+(23, 'academy', 'ACDMY23', 'User E', 'usere@gmail.com', '999999997', '$2b$10$9r/D0rmApySCiwtRJ2BHGe3RCOeANBUUkNr1AZhQ3B8MzUoW03LXu', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:05', '2020-02-26 07:27:06'),
+(24, 'academy', 'ACDMY24', 'User F', 'userf@gmail.com', '999999998', '$2b$10$sWNHaN2mY43mAeT86QWEhOoIDfQfQoe0AjuGBkW1NvhdEW7MYO/bi', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:13', '2020-02-26 07:27:13'),
+(25, 'academy', 'ACDMY25', 'User G', 'userg@gmail.com', '999999999', '$2b$10$z80hX3xzag9fWdHEgEIQaufxz7o759iZz.SU7/HbV0hF2DZHaudXS', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:20', '2020-02-26 07:27:20'),
+(26, 'academy', 'ACDMY26', 'User H', 'userh@gmail.com', '999919999', '$2b$10$6UOnoC1kvF/f1gmt8NMMe.WxFOHzeo1Jv5cSD9PlnAaZTnlOpzyYm', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:29', '2020-02-26 07:27:29'),
+(27, 'academy', 'ACDMY27', 'User I', 'useri@gmail.com', '999929999', '$2b$10$xuQc3Zt7l6yT.mWqDBvJ/.tHqfCa.ArsUiG3pQWYOqgg7bMuTWLPG', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:37', '2020-02-26 07:27:38'),
+(28, 'academy', 'ACDMY28', 'User J', 'userj@gmail.com', '999939999', '$2b$10$dLtZNZfh0pLHpJiE9acAP.NW1l.XDQLV0i3DGf7un7vvxsEH38.rO', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:46', '2020-02-26 07:27:46'),
+(29, 'academy', 'ACDMY29', 'User K', 'userk@gmail.com', '999949999', '$2b$10$ZIySKqKynHNLRlPgWEdQEuV5OQ7Apxl9mvQv16sKgYBNumMxNwo7.', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:27:56', '2020-02-26 07:27:56'),
+(30, 'academy', 'ACDMY30', 'User L', 'userl@gmail.com', '999959999', '$2b$10$Svh8Gw6WH2ypHxjNPWeR8O4q6kXcRwjTgCcHBNKNe.7O0LU1N2c8u', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:28:05', '2020-02-26 07:28:05'),
+(31, 'academy', 'ACDMY31', 'User M', 'userm@gmail.com', '999969999', '$2b$10$nK/0F3KKtxjMSA57Iah9oObvhfJHZJv9AZ54Je80Ezyl7AvNFO3PO', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:28:16', '2020-02-26 07:28:16'),
+(32, 'academy', 'ACDMY32', 'User M', 'usern@gmail.com', '999979999', '$2b$10$UwbnvikFqXUhCCKiyR0Ti.iQvoMTg.6pGyzrot30ynaQGviHMzKMq', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:28:24', '2020-02-26 07:28:24'),
+(33, 'academy', 'ACDMY33', 'User O', 'usero@gmail.com', '999989999', '$2b$10$rW3v8m8T3Hau/OD4QYimV.eCpZCN/IBQO6LHjEOXNxW.xMu6rjA3G', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:28:31', '2020-02-26 07:28:32'),
+(34, 'academy', 'ACDMY34', 'User P', 'userp@gmail.com', '919999999', '$2b$10$vTFf29oinGbRWQ6/wodXWOk8vDzul4mVPJWJwLDPAp7zSgjtsooO.', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:28:49', '2020-02-26 07:28:49'),
+(35, 'academy', 'ACDMY35', 'User Q', 'userq@gmail.com', '929999999', '$2b$10$f2obBDIR7cJhYwhBUGMP/uOYBJnsDLHJJ9SC0aUgHokRvaai5U2d2', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:00', '2020-02-26 07:29:00'),
+(36, 'academy', 'ACDMY36', 'User R', 'userr@gmail.com', '939999999', '$2b$10$JgoIq4SysFwYDy/QWRlx3uwKCHFbcqQbOmYtxr1djY0GqQKqGRnqa', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:09', '2020-02-26 07:29:09'),
+(37, 'academy', 'ACDMY37', 'User S', 'users@gmail.com', '949999999', '$2b$10$WFFHjPX00xm1WXIUIV.jGOBNKWKHOQoOU1acQyllqPPGeDHUqabBS', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:16', '2020-02-26 07:29:16'),
+(38, 'academy', 'ACDMY38', 'User T', 'usert@gmail.com', '959999999', '$2b$10$GMzgCfCVkoTgUyBswcDZ3OMIvzIKgGmoNzj4/aQGzqwBW8BTVPOzO', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:25', '2020-02-26 07:29:25'),
+(39, 'academy', 'ACDMY39', 'User U', 'useru@gmail.com', '969999999', '$2b$10$OvNMM4Rwq9p81rIkal5AEOpL6XagyKpRw1.RjUrp.7rwPDprkNz8K', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:33', '2020-02-26 07:29:33'),
+(40, 'academy', 'ACDMY40', 'User V', 'userv@gmail.com', '979999999', '$2b$10$GRiXEMpINZbu.xPdRwMf9.9vQs1wMWsifEvRGrdozG1KEN5SbMHP6', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:41', '2020-02-26 07:29:41'),
+(41, 'academy', 'ACDMY41', 'User W', 'userw@gmail.com', '989999999', '$2b$10$X5uMPlNVeEVNB6rMKCP9nevswpKa3w6H2L.D4QXQaEd.wNn/f/jKK', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:52', '2020-02-26 07:29:52'),
+(42, 'academy', 'ACDMY42', 'User X', 'userx@gmail.com', '989999991', '$2b$10$jB1RxukqNk6aQTmhirgUP.GraoFAoXDJ8GoFQaHQELQVYEBO0bRcm', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:04', '2020-02-26 07:30:04'),
+(43, 'academy', 'ACDMY43', 'User Y', 'usery@gmail.com', '989999992', '$2b$10$iMEcxxujYHJdXv1Y1bptquQ7RTHY/wZ.qps36Q1LcteBpFXWIAL.G', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:10', '2020-02-26 07:30:10'),
+(44, 'academy', 'ACDMY44', 'User Z', 'userz@gmail.com', '989999993', '$2b$10$amaGV/DIYg.JuqSq5PS/ouJ0qcWnkMgwJqJ/ZvVsMZ2P6xFB8RDWa', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:17', '2020-02-26 07:30:18');
 
 --
 -- Indexes for dumped tables
@@ -52572,7 +52875,7 @@ ALTER TABLE `prefix_users`
 -- AUTO_INCREMENT for table `prefix_academy_details`
 --
 ALTER TABLE `prefix_academy_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `prefix_cities`
@@ -52596,7 +52899,7 @@ ALTER TABLE `prefix_states`
 -- AUTO_INCREMENT for table `prefix_users`
 --
 ALTER TABLE `prefix_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables

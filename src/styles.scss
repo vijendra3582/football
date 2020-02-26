@@ -124,7 +124,7 @@ label > .anticon {
 
 .nz-table .ant-table-wrapper {
   float: left;
-  width: 98%;
+  width: 100%;
 }
 
 td a.delete {
@@ -151,7 +151,11 @@ nz-header {
 }
 
 [nz-menu] {
-  line-height: 42px;
+  line-height: 41px;
+  background: #2196f3;
+  color: #fff;
+  height: 43px;
+  border: 0;
 }
 
 nz-content {
@@ -165,10 +169,12 @@ nz-breadcrumb {
 
 .inner-content {
   background: #fff;
-  padding: 24px;
+  padding: 11px 10px;
   min-height: 380px;
+  border: 1px solid lightgray;
+  float: left;
+  width: 100%;
 }
-
 nz-footer {
   text-align: center;
 }
@@ -182,14 +188,74 @@ nz-footer {
   padding-top: 2px;
 }
 
-.ant-menu-dark, .ant-menu-dark .ant-menu-sub {
+.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub {
   color: #fff;
-  background: #2196F3;
+  background: #2196f3;
   height: 43px;
 }
 
 .ant-layout-header {
-  background: #2196F3;
+  background: #2196f3;
   height: 43px;
 }
 
+.login-form-forgot {
+  float: right;
+}
+
+form.login-form {
+  padding: 21px;
+  border: 1px solid lightgray;
+  width: 26% !important;
+  max-width: au;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.ant-menu-horizontal > .ant-menu-item-active,
+.ant-menu-horizontal > .ant-menu-item-open,
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-submenu-active,
+.ant-menu-horizontal > .ant-menu-submenu-open,
+.ant-menu-horizontal > .ant-menu-submenu-selected,
+.ant-menu-horizontal > .ant-menu-submenu:hover {
+  color: #fff;
+  border-bottom: 0;
+}
+
+.ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-submenu {
+  border-bottom: 0;
+}
+
+.ant-menu-submenu-title span {
+  color: #fff !important;
+  float: left;
+  margin-right: 10px;
+}
+
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+  color: #fff !important;
+}
+
+.ant-table-thead > tr > th {
+  border-bottom: 1px solid lightgray;
+}
+
+.ant-breadcrumb {
+  margin-bottom: 1rem;
+}
+nz-breadcrumb-item:focus {
+  outline: 0;
+}
+nz-breadcrumb-item {
+  cursor: pointer;
+}
+span.ant-breadcrumb-link {
+  font-weight: 500;
+}

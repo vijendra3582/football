@@ -4,32 +4,36 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 export interface ApiResponse {
-    data:any;
-    status:boolean;
+    data: any;
+    status: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ApiClient {
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-    public get(segment){
+    public get(segment) {
         return this.http.get<ApiResponse>(this.getUrl(segment));
     }
 
-    public post(segment,payload){
+    public getO(segment, params) {
+        return this.http.get<any>(this.getUrl(segment), { params });
+    }
+
+    public post(segment, payload) {
         return this.http.post<ApiResponse>(this.getUrl(segment), payload);
     }
 
-    public put(segment,payload){
+    public put(segment, payload) {
         return this.http.put<ApiResponse>(this.getUrl(segment), payload);
     }
 
-    public delete(segment){
+    public delete(segment) {
         return this.http.delete<ApiResponse>(this.getUrl(segment));
     }
 
     public getUrl(segment) {
-        return environment.apiPath+segment;
+        return environment.apiPath + segment;
     }
 }
