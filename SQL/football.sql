@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
     DECLARE v_page int;
 	DECLARE v_results int;
 	DECLARE v_resultsOrder int;
@@ -80,7 +80,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `All_Academy` (IN `p_body` JSON)  BE
 	DEALLOCATE PREPARE stmt;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Delete_Academy` (IN `v_academy_id` INT)  BEGIN
+CREATE PROCEDURE `Delete_Academy` (IN `v_academy_id` INT)  BEGIN
 START TRANSACTION;
 	DELETE FROM prefix_users WHERE id = v_academy_id;
     DELETE FROM prefix_academy_details WHERE user_id = v_academy_id;
@@ -89,19 +89,19 @@ START TRANSACTION;
 COMMIT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_City` (IN `v_state_id` INT)  BEGIN
+CREATE PROCEDURE `Get_City` (IN `v_state_id` INT)  BEGIN
 	SELECT * FROM prefix_cities WHERE state_id = v_state_id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_Country` ()  BEGIN
+CREATE PROCEDURE `Get_Country` ()  BEGIN
 	SELECT * FROM prefix_countries WHERE id = 101;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_State` (IN `v_country_id` INT)  BEGIN
+CREATE PROCEDURE `Get_State` (IN `v_country_id` INT)  BEGIN
 	SELECT * FROM prefix_states WHERE country_id = v_country_id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_Single` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `Get_User_Single` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -115,7 +115,7 @@ ELSEIF(v_field = 'id') THEN
 END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Insert_Academy` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `Insert_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -193,7 +193,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Single_Academy` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `Single_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -207,7 +207,7 @@ ELSEIF(v_field = 'id') THEN
 END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
 	SET @tableName 		= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.table'));
 	SET @count 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.count'));
     
@@ -218,7 +218,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Total_rows` (IN `p_body` JSON)  BEG
 	DEALLOCATE PREPARE stmt;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Academy` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `Update_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -265,7 +265,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Delete` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `User_Delete` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -281,7 +281,7 @@ SELECT JSON_OBJECT('status','true','message','User deleted successfully.') as me
 COMMIT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Registration` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `User_Registration` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -318,7 +318,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Update` (IN `p_body` JSON)  BEGIN
+CREATE PROCEDURE `User_Update` (IN `p_body` JSON)  BEGIN
 DECLARE v_id int;
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);

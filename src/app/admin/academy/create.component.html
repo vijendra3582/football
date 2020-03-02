@@ -37,7 +37,7 @@
         </nz-form-item>
         <nz-form-item *ngIf="!academy.id">
             <nz-form-label nzRequired nzFor="confirm_password">Confirm Password</nz-form-label>
-            <nz-form-control [nzErrorTip]="errorTpl">
+            <nz-form-control>
                 <input nz-input type="password" formControlName="confirm_password" id="confirm_password"
                     [(ngModel)]="academy.confirm_password" />
             </nz-form-control>

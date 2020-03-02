@@ -1,4 +1,4 @@
-const { hashSync, genSaltSync, compareSync } = require("bcrypt");
+const { hashSync, genSaltSync, compareSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
 const { Validator } = require('node-input-validator');
 const {

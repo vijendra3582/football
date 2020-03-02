@@ -1,6 +1,7 @@
 //Import Libraries
 require("dotenv").config();
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth.route');
 const locationRoutes = require('./routes/location.route');
@@ -19,9 +20,14 @@ app.use(bodyParser.json());
 
 
 //Route Middleware
-app.use('/auth', authRoutes);
-app.use('/location', locationRoutes);
-app.use('/academy', academyRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/location', locationRoutes);
+app.use('/api/academy', academyRoutes);
+app.use(express.static(path.join(__dirname, 'public/dist')));
+
+app.get('/*', (req, res) => { 
+    res.sendFile(path.join(__dirname, 'public/dist', 'index.html')); 
+});
 
 app.get('*', (req, res, next) => {
     return res.status(404).json({

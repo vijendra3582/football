@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class FieldErrorComponent implements OnInit {
   @Input() control: FormControl;
-  @Input() server_message = '';
+  @Input() server_message:any = {};
   @Input() submitted = false;
   @Input() pattern: string;
   constructor() { }

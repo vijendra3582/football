@@ -1,4 +1,4 @@
-const { hashSync, genSaltSync } = require("bcrypt");
+const { hashSync, genSaltSync } = require("bcryptjs");
 const { Validator } = require('node-input-validator');
 const { create, update, deleteA, single, all } = require('./../models/academy.model');
 
