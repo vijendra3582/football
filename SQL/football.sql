@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2020 at 11:03 AM
+-- Generation Time: Mar 20, 2020 at 09:32 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
     DECLARE v_page int;
 	DECLARE v_results int;
 	DECLARE v_resultsOrder int;
@@ -80,7 +80,7 @@ CREATE PROCEDURE `All_Academy` (IN `p_body` JSON)  BEGIN
 	DEALLOCATE PREPARE stmt;
 END$$
 
-CREATE PROCEDURE `Delete_Academy` (IN `v_academy_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Delete_Academy` (IN `v_academy_id` INT)  BEGIN
 START TRANSACTION;
 	DELETE FROM prefix_users WHERE id = v_academy_id;
     DELETE FROM prefix_academy_details WHERE user_id = v_academy_id;
@@ -89,19 +89,19 @@ START TRANSACTION;
 COMMIT;
 END$$
 
-CREATE PROCEDURE `Get_City` (IN `v_state_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_City` (IN `v_state_id` INT)  BEGIN
 	SELECT * FROM prefix_cities WHERE state_id = v_state_id;
 END$$
 
-CREATE PROCEDURE `Get_Country` ()  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_Country` ()  BEGIN
 	SELECT * FROM prefix_countries WHERE id = 101;
 END$$
 
-CREATE PROCEDURE `Get_State` (IN `v_country_id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_State` (IN `v_country_id` INT)  BEGIN
 	SELECT * FROM prefix_states WHERE country_id = v_country_id;
 END$$
 
-CREATE PROCEDURE `Get_User_Single` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_Single` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -115,7 +115,7 @@ ELSEIF(v_field = 'id') THEN
 END IF;
 END$$
 
-CREATE PROCEDURE `Insert_Academy` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Insert_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -193,7 +193,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE PROCEDURE `Single_Academy` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Single_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -207,7 +207,7 @@ ELSEIF(v_field = 'id') THEN
 END IF;
 END$$
 
-CREATE PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
 	SET @tableName 		= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.table'));
 	SET @count 			= JSON_UNQUOTE(JSON_EXTRACT(p_body,'$.count'));
     
@@ -218,7 +218,7 @@ CREATE PROCEDURE `Total_rows` (IN `p_body` JSON)  BEGIN
 	DEALLOCATE PREPARE stmt;
 END$$
 
-CREATE PROCEDURE `Update_Academy` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Academy` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -265,7 +265,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE PROCEDURE `User_Delete` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Delete` (IN `p_body` JSON)  BEGIN
 DECLARE v_field varchar(255);
 DECLARE v_value varchar(255);
 
@@ -281,7 +281,7 @@ SELECT JSON_OBJECT('status','true','message','User deleted successfully.') as me
 COMMIT;
 END$$
 
-CREATE PROCEDURE `User_Registration` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Registration` (IN `p_body` JSON)  BEGIN
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
 DECLARE v_mobile varchar(255);
@@ -318,7 +318,7 @@ END IF;
 COMMIT;
 END$$
 
-CREATE PROCEDURE `User_Update` (IN `p_body` JSON)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `User_Update` (IN `p_body` JSON)  BEGIN
 DECLARE v_id int;
 DECLARE v_name varchar(255);
 DECLARE v_email varchar(255);
@@ -370,7 +370,6 @@ CREATE TABLE `prefix_academy_details` (
 --
 
 INSERT INTO `prefix_academy_details` (`detail_id`, `user_id`, `unique_no`) VALUES
-(4, 9, 'ACDMY9'),
 (5, 10, 'ACDMY10'),
 (6, 11, 'ACDMY11'),
 (7, 12, 'ACDMY12'),
@@ -405,7 +404,8 @@ INSERT INTO `prefix_academy_details` (`detail_id`, `user_id`, `unique_no`) VALUE
 (36, 41, 'ACDMY41'),
 (37, 42, 'ACDMY42'),
 (38, 43, 'ACDMY43'),
-(39, 44, 'ACDMY44');
+(39, 44, 'ACDMY44'),
+(41, 46, 'ACDMY46');
 
 -- --------------------------------------------------------
 
@@ -52795,7 +52795,6 @@ CREATE TABLE `prefix_users` (
 INSERT INTO `prefix_users` (`id`, `role`, `unique_no`, `name`, `email`, `mobile`, `password`, `address_1`, `address_2`, `city`, `state`, `country`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', NULL, 'Vijendra', 'vijendra3582@gmail.com', '7532943952', '$2b$10$fZp2/wAovtVwbT6ya01jvuiowIl/3amZgU/rKWrYFLpcBOsl8avn2', NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 07:55:00', '2020-02-24 09:18:20'),
 (2, 'academy', NULL, 'Vijendra', 'vijendra@makemaya.com', '8249216030', '$2b$10$vzbSfgwxZqXsnp/QzLiTV.eZK56JEVPFXgLTnW3CM2/8ggmMlPyuS', NULL, NULL, NULL, NULL, NULL, '0', '2020-02-21 09:14:36', '2020-02-24 09:18:23'),
-(9, 'academy', 'ACDMY9', 'User One', 'userone@gmail.com', '9999999999', '$2b$10$G3d8xzoy.loDmfxnqc.Tzej78GHa/9ykzmFOHosi/SOQFIAYYz2Du', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:21:43', '2020-02-26 07:21:43'),
 (10, 'academy', 'ACDMY10', 'User One', 'usertwo@gmail.com', '9999999998', '$2b$10$mn.lJZ5duBxhvMmir675g.kOnBeSTQeVG872Lko7DMLbmCSUmmycK', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:08', '2020-02-26 07:24:08'),
 (11, 'academy', 'ACDMY11', 'User One', 'userthree@gmail.com', '9999999997', '$2b$10$QcsiIVwkeAVlmWGXcfRz5eDbtS8aRRtKVhGsDm5K5Es.GRRj4sLYG', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:18', '2020-02-26 07:24:18'),
 (12, 'academy', 'ACDMY12', 'User One', 'userfour@gmail.com', '9999999996', '$2b$10$i5ir7Ot.y2uRQHuM/jQZGu/F99.jCEdy5cb2aMTth5IklywNGOMSS', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:24:32', '2020-02-26 07:24:32'),
@@ -52830,7 +52829,8 @@ INSERT INTO `prefix_users` (`id`, `role`, `unique_no`, `name`, `email`, `mobile`
 (41, 'academy', 'ACDMY41', 'User W', 'userw@gmail.com', '989999999', '$2b$10$X5uMPlNVeEVNB6rMKCP9nevswpKa3w6H2L.D4QXQaEd.wNn/f/jKK', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:29:52', '2020-02-26 07:29:52'),
 (42, 'academy', 'ACDMY42', 'User X', 'userx@gmail.com', '989999991', '$2b$10$jB1RxukqNk6aQTmhirgUP.GraoFAoXDJ8GoFQaHQELQVYEBO0bRcm', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:04', '2020-02-26 07:30:04'),
 (43, 'academy', 'ACDMY43', 'User Y', 'usery@gmail.com', '989999992', '$2b$10$iMEcxxujYHJdXv1Y1bptquQ7RTHY/wZ.qps36Q1LcteBpFXWIAL.G', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:10', '2020-02-26 07:30:10'),
-(44, 'academy', 'ACDMY44', 'User Z', 'userz@gmail.com', '989999993', '$2b$10$amaGV/DIYg.JuqSq5PS/ouJ0qcWnkMgwJqJ/ZvVsMZ2P6xFB8RDWa', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:17', '2020-02-26 07:30:18');
+(44, 'academy', 'ACDMY44', 'User Z', 'userz@gmail.com', '989999993', '$2b$10$amaGV/DIYg.JuqSq5PS/ouJ0qcWnkMgwJqJ/ZvVsMZ2P6xFB8RDWa', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-02-26 07:30:17', '2020-02-26 07:30:18'),
+(46, 'academy', 'ACDMY46', 'XYZ', 'xyz@gmail.com', '7874857485', '$2a$10$48VAe0R0dU8m8fJ3vJRJpObiok9f/.Dl5p2hoAJNFBU1/GQ5/Frc.', 'Faridabad', 'Faridabad', 4979, 38, 101, '', '2020-03-02 06:36:46', '2020-03-02 06:36:46');
 
 --
 -- Indexes for dumped tables
@@ -52875,7 +52875,7 @@ ALTER TABLE `prefix_users`
 -- AUTO_INCREMENT for table `prefix_academy_details`
 --
 ALTER TABLE `prefix_academy_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `prefix_cities`
@@ -52899,7 +52899,7 @@ ALTER TABLE `prefix_states`
 -- AUTO_INCREMENT for table `prefix_users`
 --
 ALTER TABLE `prefix_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
