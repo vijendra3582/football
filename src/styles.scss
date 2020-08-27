@@ -64,9 +64,11 @@ div#wrapper {
 .ant-form-item-required::before {
   float: right;
 }
+
 .ant-col {
   margin-bottom: 4px;
 }
+
 .ant-form-item-required::after {
   content: "";
 }
@@ -81,6 +83,7 @@ div#wrapper {
 .ant-input:focus {
   box-shadow: none;
 }
+
 .has-error .ant-calendar-picker-open .ant-calendar-picker-input,
 .has-error .ant-input-affix-wrapper .ant-input:focus,
 .has-error .ant-input:focus,
@@ -90,13 +93,14 @@ div#wrapper {
   border-right-width: 1.5px !important;
   outline: 0;
 }
+
 .ant-form-explain,
 .ant-form-extra {
   font-weight: 500;
   margin-top: 2px;
 }
 
-label > .anticon {
+label>.anticon {
   margin-left: 3px;
   margin-right: 3px;
 }
@@ -135,13 +139,36 @@ label > .anticon {
   width: 100%;
 }
 
-td a.delete {
-  margin-left: 20px;
-  color: tomato;
+td ul {
+  list-style: none;
+  padding: 0;
+}
+
+td ul li {
+  float: left;
+  margin: 2px;
+  background: #1890ff;
+  padding: 1px 10px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+li.gray {
+  background: gray;
+}
+
+li.tomato {
+  background: tomato;
+}
+
+td ul li a,
+td ul li a:hover {
+  color: #fff;
 }
 
 .layout {
   height: 100vh;
+  background: #fff;
 }
 
 .logo {
@@ -183,6 +210,7 @@ nz-breadcrumb {
   float: left;
   width: 100%;
 }
+
 nz-footer {
   text-align: center;
 }
@@ -208,6 +236,10 @@ nz-footer {
   height: 43px;
 }
 
+.ant-layout-footer {
+  background: #fff;
+}
+
 .login-form-forgot {
   float: right;
 }
@@ -223,20 +255,20 @@ form.login-form {
   width: 100%;
 }
 
-.ant-menu-horizontal > .ant-menu-item-active,
-.ant-menu-horizontal > .ant-menu-item-open,
-.ant-menu-horizontal > .ant-menu-item-selected,
-.ant-menu-horizontal > .ant-menu-item:hover,
-.ant-menu-horizontal > .ant-menu-submenu-active,
-.ant-menu-horizontal > .ant-menu-submenu-open,
-.ant-menu-horizontal > .ant-menu-submenu-selected,
-.ant-menu-horizontal > .ant-menu-submenu:hover {
+.ant-menu-horizontal>.ant-menu-item-active,
+.ant-menu-horizontal>.ant-menu-item-open,
+.ant-menu-horizontal>.ant-menu-item-selected,
+.ant-menu-horizontal>.ant-menu-item:hover,
+.ant-menu-horizontal>.ant-menu-submenu-active,
+.ant-menu-horizontal>.ant-menu-submenu-open,
+.ant-menu-horizontal>.ant-menu-submenu-selected,
+.ant-menu-horizontal>.ant-menu-submenu:hover {
   color: #fff;
   border-bottom: 0;
 }
 
-.ant-menu-horizontal > .ant-menu-item,
-.ant-menu-horizontal > .ant-menu-submenu {
+.ant-menu-horizontal>.ant-menu-item,
+.ant-menu-horizontal>.ant-menu-submenu {
   border-bottom: 0;
 }
 
@@ -251,53 +283,87 @@ form.login-form {
   color: #fff !important;
 }
 
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
   border-bottom: 0;
 }
 
 .ant-breadcrumb {
   margin-bottom: 1rem;
 }
+
 nz-breadcrumb-item:focus {
   outline: 0;
 }
+
 nz-breadcrumb-item {
   cursor: pointer;
 }
+
 span.ant-breadcrumb-link {
   font-weight: 500;
 }
+
 .ant-table table {
   border: 1px solid lightgray;
+  padding: 18px;
 }
 
-.ant-table-body table {
-  border-top: 0;
-}
-
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
   -webkit-box-shadow: none;
-  box-shadow:none;
-	border-radius: 1px;
-	background-color: #F5F5F5;
+  box-shadow: none;
+  border-radius: 1px;
+  background-color: #f5f5f5;
 }
 
-::-webkit-scrollbar
-{
-	width: 10px;
-	background-color: #F5F5F5;
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 1px;
   -webkit-box-shadow: none;
-  box-shadow:none;
-  background-color: #F44336;
+  box-shadow: none;
+  background-color: lightgray;
   width: 4px;
 }
 
 ::selection {
   color: #fff;
   background: #1890ff;
+}
+
+.ant-menu-item:focus {
+  outline: 0;
+}
+
+td.p-td-search input {
+  border: 1.5px solid lightgray;
+  border-radius: 3px;
+  margin-left: 0.5rem;
+}
+
+.buttons {
+  float: left;
+  width: 100%;
+}
+
+span.heading-uppper-table {
+  float: left;
+  margin: 1rem 0;
+  background: 0 0;
+  color: #fff;
+  padding: 5px 0;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.buttons a {
+  float: right;
+  margin: 1rem .8rem;
+  background: #1890ff;
+  color: #fff;
+  padding: 5px 20px;
+  border-radius: 3px;
 }

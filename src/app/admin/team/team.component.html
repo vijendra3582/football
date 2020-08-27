@@ -1,0 +1,61 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item routerLink="/dashboard">Dashboard</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="/team/manage">Team</nz-breadcrumb-item>
+    <nz-breadcrumb-item>List</nz-breadcrumb-item>
+</nz-breadcrumb>
+<div class="buttons">
+    <span class="heading-uppper-table">Manage Team</span>
+    <a routerLink="/team/create">New Team</a>
+</div>
+<div class="nz-table">
+    <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
+        [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
+        (nzPageSizeChange)="searchData(true)">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <tr>
+                <th nzLeft="0px" nzShowSort nzSortKey="id">ID</th>
+                <th nzShowSort nzSortKey="name">Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th nzRight="0px">Action</th>
+            </tr>
+            <tr>
+                <td class="p-td-search">
+                    <input type="text" (keyup.enter)="searchData()" [(ngModel)]="search._id" class="td-search">
+                </td>
+                <td class="p-td-search">
+                    <input type="text" (keyup.enter)="searchData()" [(ngModel)]="search.name" class="td-search">
+                </td>
+                <td class="p-td-search">
+                    <input type="text" (keyup.enter)="searchData()" [(ngModel)]="search.email" class="td-search">
+                </td>
+                <td class="p-td-search">
+                    <input type="text" (keyup.enter)="searchData()" [(ngModel)]="search.phoneNumber" class="td-search">
+                </td>
+                <td class="p-td-search disabled">
+
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of ajaxTable.data; index as i">
+                <td nzLeft="0px">{{ data._id }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.phoneNumber }}</td>
+                <td nzRight="0px">
+                    <ul>
+                        <li class="gray">
+                            <a routerLink="/team/edit/{{ data._id }}" class="edit">Edit</a>
+                        </li>
+                        <li class="tomato">
+                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete ?"
+                                (nzOnConfirm)="delete(data._id)" nzPopconfirmPlacement="topRight" class="delete"
+                                href="#">Delete</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

@@ -1,0 +1,136 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item routerLink="/dashboard">Dashboard</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="/team/manage">Team</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="!team._id">Create</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="team._id">Edit</nz-breadcrumb-item>
+</nz-breadcrumb>
+<div class="buttons">
+    <span class="heading-uppper-table">New Team</span>
+    <a routerLink="/team/manage">Manage Team</a>
+</div>
+<div class="d-flex-center d-flex-center-mt4">
+    <form nz-form [formGroup]="form">
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="name">Name</nz-form-label>
+            <nz-form-control>
+                <input nz-input id="name" formControlName="name" [(ngModel)]="team.name" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.name"
+                [server_message]="server_message.name" [control]="form.get('name')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="ownerName">Owner Name</nz-form-label>
+            <nz-form-control>
+                <input nz-input id="ownerName" formControlName="ownerName" [(ngModel)]="team.ownerName" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.ownerName"
+                [server_message]="server_message.ownerName" [control]="form.get('ownerName')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="headCoachName">Head Coach Name</nz-form-label>
+            <nz-form-control>
+                <input nz-input id="headCoachName" formControlName="headCoachName" [(ngModel)]="team.headCoachName" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.headCoachName"
+                [server_message]="server_message.headCoachName" [control]="form.get('headCoachName')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="email" id="email" [(ngModel)]="team.email" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.email"
+                [control]="form.get('email')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="phoneNumber">Mobile</nz-form-label>
+            <nz-form-control>
+                <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="team.phoneNumber" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.phoneNumber"
+                [control]="form.get('phoneNumber')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="ownerPhoneNumber">Owner Mobile</nz-form-label>
+            <nz-form-control>
+                <input formControlName="ownerPhoneNumber" id="'ownerPhoneNumber'" nz-input [(ngModel)]="team.ownerPhoneNumber" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.ownerPhoneNumber"
+                [control]="form.get('ownerPhoneNumber')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item *ngIf="!team._id">
+            <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+            <nz-form-control>
+                <input nz-input type="password" id="password" formControlName="password"
+                    [(ngModel)]="team.password" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.password"
+                [control]="form.get('password')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="numberOfPlayer">Number Of Player</nz-form-label>
+            <nz-form-control>
+                <input formControlName="numberOfPlayer" id="'numberOfPlayer'" nz-input [(ngModel)]="team.numberOfPlayer" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.numberOfPlayer"
+                [control]="form.get('numberOfPlayer')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="clubId">Club</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a city" formControlName="clubId" [(ngModel)]="team.clubId" (ngModelChange)="setOrgnization()">
+                    <nz-option *ngFor="let option of clubs" [nzLabel]="option.name" [nzValue]="option._id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.clubId" [control]="form.get('clubId')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="ground">Ground</nz-form-label>
+            <nz-form-control>
+                <input formControlName="ground" id="'ground'" nz-input [(ngModel)]="team.ground" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.ground"
+                [control]="form.get('ground')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="state">State</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a State" formControlName="state" [(ngModel)]="team.state.id" (ngModelChange)="getCity()" (ngModelChange)="setStateData()">
+                    <nz-option *ngFor="let option of states" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.state" [control]="form.get('state')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="city">City</nz-form-label>
+            <nz-form-control>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a city" formControlName="city" [(ngModel)]="team.city.id" (ngModelChange)="setCityData()">
+                    <nz-option *ngFor="let option of cities" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.city" [control]="form.get('city')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="address">Address</nz-form-label>
+            <nz-form-control>
+                <textarea formControlName="address" id="'address'" nz-input [(ngModel)]="team.address"></textarea>
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.address"
+                [control]="form.get('address')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control *ngIf="!team._id">
+                <button nz-button nzType="primary" [disabled]="!form.valid" (click)="submitForm()">Create
+                    Team</button>
+            </nz-form-control>
+
+            <nz-form-control *ngIf="team._id">
+                <button nz-button nzType="primary" [disabled]="!form.valid" (click)="submitFormUpdate()">Update
+                    Team</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>

@@ -1,4 +1,14 @@
-import { DashboardComponent, LoginComponent, ForgetComponent, AcademyCreateComponent, AcademyListComponent } from './pages';
+import {
+    DashboardComponent,
+    LoginComponent,
+    ForgetComponent,
+    OrgnizationCreateComponent,
+    OrgnizationListComponent,
+    AddEditClubComponent,
+    ClubComponent,
+    AddEditTeamComponent,
+    TeamComponent
+} from './pages';
 import { Routes } from '@angular/router';
 import { AuthGuard } from './../guards/auth.guard';
 import { LoginGuard } from './../guards/login.guard';
@@ -25,13 +35,33 @@ export const adminRoutes: Routes = [
         component: DashboardComponent
     },
     {
-        path: "academy",
+        path: "orgnization",
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         children: [
-            { path: "create", component: AcademyCreateComponent },
-            { path: "edit/:id", component: AcademyCreateComponent },
-            { path: "manage", component: AcademyListComponent },
+            { path: "create", component: OrgnizationCreateComponent },
+            { path: "edit/:id", component: OrgnizationCreateComponent },
+            { path: "manage", component: OrgnizationListComponent },
+        ]
+    },
+    {
+        path: "club",
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [
+            { path: "create", component: AddEditClubComponent },
+            { path: "edit/:id", component: AddEditClubComponent },
+            { path: "manage", component: ClubComponent },
+        ]
+    },
+    {
+        path: "team",
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [
+            { path: "create", component: AddEditTeamComponent },
+            { path: "edit/:id", component: AddEditTeamComponent },
+            { path: "manage", component: TeamComponent },
         ]
     }
 ];

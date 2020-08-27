@@ -1,32 +1,42 @@
-//Import Libraries
 require("dotenv").config();
+
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
+const Mongoose = require('mongoose');
+const path = require('path');
+const cors = require('cors')
+
 const authRoutes = require('./routes/auth.route');
+const adminRoutes = require('./routes/admin.route');
+const orgnizationRoutes = require('./routes/orgnization.route');
+const clubRoutes = require('./routes/club.route');
+const teamRoutes = require('./routes/team.route');
+const playerRoutes = require('./routes/player.route');
 const locationRoutes = require('./routes/location.route');
-const academyRoutes = require('./routes/academy.route');
-//Get port
-const portNode = process.env.APP_PORT;
 
 const app = express();
 
-//Parse Form Packet of data
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
 
-//Parse json packet data
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
+app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
+app.use('/orgnization', orgnizationRoutes);
+app.use('/club', clubRoutes);
+app.use('/team', teamRoutes);
+app.use('/player', playerRoutes);
+app.use('/location', locationRoutes);
 
-//Route Middleware
-app.use('/api/auth', authRoutes);
-app.use('/api/location', locationRoutes);
-app.use('/api/academy', academyRoutes);
-app.use(express.static(path.join(__dirname, 'public/dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/*', (req, res) => { 
-    res.sendFile(path.join(__dirname, 'public/dist', 'index.html')); 
+app.use("/uploads", express.static(path.join(__dirname, 'uploads')));
+app.use("/api/static", express.static(path.join(__dirname, 'static')));
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('*', (req, res, next) => {
@@ -36,6 +46,13 @@ app.get('*', (req, res, next) => {
     });
 });
 
-app.listen(portNode, () => {
-    console.log("Server is up and running on PORTs :", portNode);
+Mongoose.connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('Database connected successfully.');
+    app.listen(process.env.APP_PORT, () => {
+        console.log('Server started successfully.');
+    });
+}).catch(() => {
 });

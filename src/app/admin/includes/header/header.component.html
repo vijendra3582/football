@@ -2,24 +2,15 @@
     <div class="logo"></div>
     <ul nz-menu nzMode="horizontal" class="menu-item">
         <li nz-menu-item routerLink="/dashboard">Dashboard</li>
-        <li nz-submenu nzTitle="Academy" nzIcon="caret-down">
+        <li nz-menu-item routerLink="/orgnization/manage">Orgnizations</li>
+        <li nz-menu-item routerLink="/club/manage">Clubs</li>
+        <li nz-menu-item routerLink="/team/manage">Teams</li>
+        <!-- <li nz-submenu nzTitle="Orgnizations" nzIcon="caret-down">
             <ul class="sub-menu-item">
-                <li nz-menu-item routerLink="/academy/create">Create</li>
-                <li nz-menu-item routerLink="/academy/manage">Manage</li>
+                <li nz-menu-item routerLink="/orgnization/create">Create</li>
+                <li nz-menu-item routerLink="/orgnization/manage">Manage</li>
             </ul>
-        </li>
-        <li nz-submenu nzTitle="Coach" nzIcon="caret-down">
-            <ul class="sub-menu-item">
-                <li nz-menu-item routerLink="/coach/create">Create</li>
-                <li nz-menu-item routerLink="/coach/manage">Manage</li>
-            </ul>
-        </li>
-        <li nz-submenu nzTitle="Student" nzIcon="caret-down">
-            <ul class="sub-menu-item">
-                <li nz-menu-item routerLink="/student/create">Create</li>
-                <li nz-menu-item routerLink="/student/manage">Manage</li>
-            </ul>
-        </li>
+        </li> -->
         <li (click)="logout()" nz-menu-item class="logout-menu">Logout<i nz-icon nzType="logout"
                 nzTheme="outline"></i></li>
     </ul>

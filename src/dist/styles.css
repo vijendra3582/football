@@ -1,0 +1,369 @@
+.form-group {
+  margin-bottom: 1rem;
+  float: left;
+  width: 100%;
+}
+
+.app-login {
+  float: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-header.text-center {
+  position: relative;
+}
+
+.login-admin {
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 11px;
+  float: left;
+}
+
+span.head-main {
+  font-size: 1.6rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.d-flex-center {
+  float: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div#wrapper {
+  background: #fff;
+  float: left;
+  width: 100%;
+}
+
+[nz-form] {
+  max-width: 600px;
+  width: 25%;
+}
+
+.phone-select {
+  width: 70px;
+}
+
+.register-are {
+  margin-bottom: 8px;
+}
+
+.ant-form-item-label {
+  text-align: left;
+  line-height: unset;
+}
+
+.ant-form-item-required::before {
+  float: right;
+}
+
+.ant-col {
+  margin-bottom: 4px;
+}
+
+.ant-form-item-required::after {
+  content: "";
+}
+
+.ant-input {
+  height: 40px;
+  -webkit-transition: none;
+  transition: none;
+  border: 1.5px solid lightgray;
+}
+
+.ant-input:focus {
+  box-shadow: none;
+}
+
+.has-error .ant-calendar-picker-open .ant-calendar-picker-input,
+.has-error .ant-input-affix-wrapper .ant-input:focus,
+.has-error .ant-input:focus,
+.has-error .ant-select-focused .ant-select-selection,
+.has-error .ant-select-open .ant-select-selection {
+  box-shadow: none;
+  border-right-width: 1.5px !important;
+  outline: 0;
+}
+
+.ant-form-explain,
+.ant-form-extra {
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+label > .anticon {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.ant-message-notice-content {
+  font-weight: 600;
+}
+
+.nz-table .search-box {
+  padding: 8px;
+}
+
+.nz-table .search-box input {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.nz-table .search-box button {
+  width: 90px;
+}
+
+.nz-table .search-button {
+  margin-right: 8px;
+}
+
+.nz-table {
+  float: left;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.nz-table .ant-table-wrapper {
+  float: left;
+  width: 100%;
+}
+
+td ul {
+  list-style: none;
+  padding: 0;
+}
+
+td ul li {
+  float: left;
+  margin: 2px;
+  background: #1890ff;
+  padding: 1px 10px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+li.gray {
+  background: gray;
+}
+
+li.tomato {
+  background: tomato;
+}
+
+td ul li a,
+td ul li a:hover {
+  color: #fff;
+}
+
+.layout {
+  height: 100vh;
+  background: #fff;
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 7px 5px;
+  float: left;
+}
+
+nz-header {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
+
+[nz-menu] {
+  line-height: 41px;
+  background: #2196f3;
+  color: #fff;
+  height: 43px;
+  border: 0;
+}
+
+nz-content {
+  padding: 0 50px;
+  margin-top: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 11px 10px;
+  min-height: 380px;
+  border: 1px solid lightgray;
+  float: left;
+  width: 100%;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.ant-select-selection {
+  border-top-width: 0;
+  border: 1.5px solid #d9d9d9;
+  height: 40px;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-top: 2px;
+}
+
+.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub {
+  color: #fff;
+  background: #2196f3;
+  height: 43px;
+}
+
+.ant-layout-header {
+  background: #2196f3;
+  height: 43px;
+}
+
+.ant-layout-footer {
+  background: #fff;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+form.login-form {
+  padding: 21px;
+  border: 1px solid lightgray;
+  width: 26% !important;
+  max-width: au;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.ant-menu-horizontal > .ant-menu-item-active,
+.ant-menu-horizontal > .ant-menu-item-open,
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-submenu-active,
+.ant-menu-horizontal > .ant-menu-submenu-open,
+.ant-menu-horizontal > .ant-menu-submenu-selected,
+.ant-menu-horizontal > .ant-menu-submenu:hover {
+  color: #fff;
+  border-bottom: 0;
+}
+
+.ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-submenu {
+  border-bottom: 0;
+}
+
+.ant-menu-submenu-title span {
+  color: #fff !important;
+  float: left;
+  margin-right: 10px;
+}
+
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+  color: #fff !important;
+}
+
+.ant-table-thead > tr > th {
+  border-bottom: 0;
+}
+
+.ant-breadcrumb {
+  margin-bottom: 1rem;
+}
+
+nz-breadcrumb-item:focus {
+  outline: 0;
+}
+
+nz-breadcrumb-item {
+  cursor: pointer;
+}
+
+span.ant-breadcrumb-link {
+  font-weight: 500;
+}
+
+.ant-table table {
+  border: 1px solid lightgray;
+  padding: 18px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 1px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: lightgray;
+  width: 4px;
+}
+
+::selection {
+  color: #fff;
+  background: #1890ff;
+}
+
+.ant-menu-item:focus {
+  outline: 0;
+}
+
+td.p-td-search input {
+  border: 1.5px solid lightgray;
+  border-radius: 3px;
+  margin-left: 0.5rem;
+}
+
+.buttons {
+  float: left;
+  width: 100%;
+}
+
+span.heading-uppper-table {
+  float: left;
+  margin: 1rem 0;
+  background: 0 0;
+  color: #fff;
+  padding: 5px 0;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.buttons a {
+  float: right;
+  margin: 1rem 0.8rem;
+  background: #1890ff;
+  color: #fff;
+  padding: 5px 20px;
+  border-radius: 3px;
+}

@@ -1,0 +1,58 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item routerLink="/dashboard">Dashboard</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="/orgnization/manage">Orgnization</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="!orgnization._id">Create</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="orgnization._id">Edit</nz-breadcrumb-item>
+</nz-breadcrumb>
+<div class="buttons">
+    <span class="heading-uppper-table">New Orgnization</span>
+    <a routerLink="/orgnization/manage">Manage Orgnization</a>
+</div>
+<div class="d-flex-center d-flex-center-mt4">
+    <form nz-form [formGroup]="form">
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="name">Name</nz-form-label>
+            <nz-form-control>
+                <input nz-input id="name" formControlName="name" [(ngModel)]="orgnization.name" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.name"
+                [server_message]="server_message.name" [control]="form.get('name')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="email" id="email" [(ngModel)]="orgnization.email" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.email"
+                [control]="form.get('email')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="phoneNumber">Mobile</nz-form-label>
+            <nz-form-control>
+                <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="orgnization.phoneNumber" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.phoneNumber"
+                [control]="form.get('phoneNumber')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item *ngIf="!orgnization._id">
+            <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+            <nz-form-control>
+                <input nz-input type="password" id="password" formControlName="password"
+                    [(ngModel)]="orgnization.password" />
+            </nz-form-control>
+            <app-field-error [submitted]="submitted" [server_message]="server_message.password"
+                [control]="form.get('password')"></app-field-error>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control *ngIf="!orgnization._id">
+                <button nz-button nzType="primary" [disabled]="!form.valid" (click)="submitForm()">Create
+                    Orgnization</button>
+            </nz-form-control>
+
+            <nz-form-control *ngIf="orgnization._id">
+                <button nz-button nzType="primary" [disabled]="!form.valid" (click)="submitFormUpdate()">Update
+                    Orgnization</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>
