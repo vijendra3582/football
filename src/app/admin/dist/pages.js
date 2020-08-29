@@ -23,6 +23,8 @@ var club_component_1 = require("./club/club.component");
 var add_edit_club_component_1 = require("./club/add-edit-club.component");
 var team_component_1 = require("./team/team.component");
 var add_edit_team_component_1 = require("./team/add-edit-team.component");
+var player_component_1 = require("./player/player.component");
+var add_edit_player_component_1 = require("./player/add-edit-player.component");
 exports.adminComponents = [
     header_component_1.HeaderComponent,
     sidebar_component_1.SidebarComponent,
@@ -35,7 +37,9 @@ exports.adminComponents = [
     club_component_1.ClubComponent,
     add_edit_club_component_1.AddEditClubComponent,
     team_component_1.TeamComponent,
-    add_edit_team_component_1.AddEditTeamComponent
+    add_edit_team_component_1.AddEditTeamComponent,
+    player_component_1.PlayerComponent,
+    add_edit_player_component_1.AddEditPlayerComponent
 ];
 __exportStar(require("./includes/header/header.component"), exports);
 __exportStar(require("./includes/sidebar/sidebar.component"), exports);
@@ -49,3 +53,5 @@ __exportStar(require("./club/club.component"), exports);
 __exportStar(require("./club/add-edit-club.component"), exports);
 __exportStar(require("./team/team.component"), exports);
 __exportStar(require("./team/add-edit-team.component"), exports);
+__exportStar(require("./player/player.component"), exports);
+__exportStar(require("./player/add-edit-player.component"), exports);

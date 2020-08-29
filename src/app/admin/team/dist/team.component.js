@@ -58,7 +58,7 @@ var TeamComponent = /** @class */ (function () {
         this.setSearch();
         this.searchData();
     };
-    TeamComponent.prototype["delete"] = function (id, index) {
+    TeamComponent.prototype["delete"] = function (id) {
         var _this = this;
         this.teamService.distroy(id).subscribe(function (result) { return _this.handleResponse(result); }, function (error) { return _this.handleError(error); });
     };

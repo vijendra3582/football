@@ -63,7 +63,7 @@ export class ClubComponent implements OnInit {
       this.searchData();
   }
 
-  delete(id, index) {
+  delete(id) {
       this.clubService.distroy(id).subscribe(
           result => this.handleResponse(result),
           error => this.handleError(error)

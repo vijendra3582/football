@@ -7,7 +7,9 @@ import {
     AddEditClubComponent,
     ClubComponent,
     AddEditTeamComponent,
-    TeamComponent
+    TeamComponent,
+    AddEditPlayerComponent,
+    PlayerComponent
 } from './pages';
 import { Routes } from '@angular/router';
 import { AuthGuard } from './../guards/auth.guard';
@@ -62,6 +64,16 @@ export const adminRoutes: Routes = [
             { path: "create", component: AddEditTeamComponent },
             { path: "edit/:id", component: AddEditTeamComponent },
             { path: "manage", component: TeamComponent },
+        ]
+    },
+    {
+        path: "player",
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [
+            { path: "create", component: AddEditPlayerComponent },
+            { path: "edit/:id", component: AddEditPlayerComponent },
+            { path: "manage", component: PlayerComponent },
         ]
     }
 ];

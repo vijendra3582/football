@@ -4,7 +4,8 @@
   "description": "Football",
   "main": "app.js",
   "scripts": {
-    "server": "nodemon app.js"
+    "server": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Vijendra",
   "license": "ISC",

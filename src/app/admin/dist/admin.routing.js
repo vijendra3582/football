@@ -54,5 +54,15 @@ exports.adminRoutes = [
             { path: "edit/:id", component: pages_1.AddEditTeamComponent },
             { path: "manage", component: pages_1.TeamComponent },
         ]
+    },
+    {
+        path: "player",
+        canActivate: [auth_guard_1.AuthGuard],
+        canActivateChild: [auth_guard_1.AuthGuard],
+        children: [
+            { path: "create", component: pages_1.AddEditPlayerComponent },
+            { path: "edit/:id", component: pages_1.AddEditPlayerComponent },
+            { path: "manage", component: pages_1.PlayerComponent },
+        ]
     }
 ];

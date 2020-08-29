@@ -22,13 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
-app.use('/orgnization', orgnizationRoutes);
-app.use('/club', clubRoutes);
-app.use('/team', teamRoutes);
-app.use('/player', playerRoutes);
-app.use('/location', locationRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/orgnization', orgnizationRoutes);
+app.use('/api/club', clubRoutes);
+app.use('/api/team', teamRoutes);
+app.use('/api/player', playerRoutes);
+app.use('/api/location', locationRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

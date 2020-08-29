@@ -63,7 +63,7 @@ export class TeamComponent implements OnInit {
       this.searchData();
   }
 
-  delete(id, index) {
+  delete(id) {
       this.teamService.distroy(id).subscribe(
           result => this.handleResponse(result),
           error => this.handleError(error)

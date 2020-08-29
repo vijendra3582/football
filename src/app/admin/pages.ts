@@ -10,6 +10,8 @@ import { ClubComponent } from './club/club.component';
 import { AddEditClubComponent } from './club/add-edit-club.component';
 import { TeamComponent } from './team/team.component';
 import { AddEditTeamComponent } from './team/add-edit-team.component';
+import { PlayerComponent } from './player/player.component';
+import { AddEditPlayerComponent } from './player/add-edit-player.component';
 
 export const adminComponents = [
     HeaderComponent,
@@ -23,7 +25,9 @@ export const adminComponents = [
     ClubComponent,
     AddEditClubComponent,
     TeamComponent,
-    AddEditTeamComponent
+    AddEditTeamComponent,
+    PlayerComponent,
+    AddEditPlayerComponent
 ];
 
 
@@ -39,3 +43,5 @@ export * from './club/club.component';
 export * from './club/add-edit-club.component';
 export * from './team/team.component';
 export * from './team/add-edit-team.component';
+export * from './player/player.component';
+export * from './player/add-edit-player.component';

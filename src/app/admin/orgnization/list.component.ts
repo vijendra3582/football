@@ -64,7 +64,7 @@ export class OrgnizationListComponent implements OnInit {
         this.searchData();
     }
 
-    delete(id, index) {
+    delete(id) {
         this.orgnizationService.distroy(id).subscribe(
             result => this.handleResponse(result),
             error => this.handleError(error)
